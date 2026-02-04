@@ -65,7 +65,7 @@
     <script type="text/javascript">
             (function () {
                 // https://dashboard.emailjs.com/admin/account
-                emailjs.init(HXRqST9GF_pakM_CS); // 여기에 EmailJS Public Key를 입력하세요
+                emailjs.init("HXRqST9GF_pakM_CS"); // 여기에 EmailJS Public Key를 입력하세요
             })();
     </script>
 
@@ -359,9 +359,9 @@
                                 // EmailJS 보내기
                                 // service_id, template_id, form_element, public_key
                                 // 실제 작동을 위해서는 EmailJS 가입 후 키 발급이 필요합니다.
-                                const serviceId = service_e8bkzeb;
-                                const templateId = template_m15h0s9;
-                                const publicKey = HXRqST9GF_pakM_CS;
+                                const serviceId = 'service_e8bkzeb';
+                                const templateId = 'template_m15h0s9';
+                                const publicKey = 'HXRqST9GF_pakM_CS';
 
                                 emailjs.sendForm(serviceId, templateId, e.target, publicKey)
                                     .then((result) => {
