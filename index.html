@@ -60,6 +60,15 @@
        
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
 
+    <!-- EmailJS SDK -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script type="text/javascript">
+            (function () {
+                // https://dashboard.emailjs.com/admin/account
+                emailjs.init(HXRqST9GF_pakM_CS); // 여기에 EmailJS Public Key를 입력하세요
+            })();
+    </script>
+
         <style>
         body {
             scroll-behavior: smooth;
@@ -339,30 +348,53 @@
                                 <h2 className="text-3xl font-black text-gray-900 mb-2">무료 견적 상담</h2>
                                 <p className="text-gray-500">지금 바로 물류 고민을 해결해드리겠습니다.</p>
                             </div>
-                            <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
+                            <form className="space-y-6" id="contact-form" onSubmit={(e) => {
+                                e.preventDefault();
+
+                                if (!document.getElementById('agree').checked) {
+                                    alert('개인정보 수집 및 이용에 동의해주세요.');
+                                    return;
+                                }
+
+                                // EmailJS 보내기
+                                // service_id, template_id, form_element, public_key
+                                // 실제 작동을 위해서는 EmailJS 가입 후 키 발급이 필요합니다.
+                                const serviceId = service_e8bkzeb;
+                                const templateId = template_m15h0s9;
+                                const publicKey = HXRqST9GF_pakM_CS;
+
+                                emailjs.sendForm(serviceId, templateId, e.target, publicKey)
+                                    .then((result) => {
+                                        alert('전송되었습니다.');
+                                        window.location.reload(); // 메인페이지로 이동(새로고침)
+                                    }, (error) => {
+                                        alert('전송에 실패했습니다. 관리자에게 문의해주세요.');
+                                        console.log(error.text);
+                                    });
+                            }}>
                                 <div className="grid md:grid-cols-2 gap-6">
                                     <div className="space-y-2">
                                         <label className="text-sm font-bold text-gray-700">회사명</label>
-                                        <input type="text" className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-200 outline-none transition-all placeholder:text-gray-400" placeholder="(주)스마트컴퍼니" />
+                                        <input name="company" type="text" className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-200 outline-none transition-all placeholder:text-gray-400" placeholder="(주)스마트컴퍼니" required />
                                     </div>
                                     <div className="space-y-2">
                                         <label className="text-sm font-bold text-gray-700">성함 / 직함</label>
-                                        <input type="text" className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-200 outline-none transition-all placeholder:text-gray-400" placeholder="홍길동 대표" />
+                                        <input name="name" type="text" className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-200 outline-none transition-all placeholder:text-gray-400" placeholder="홍길동 대표" required />
                                     </div>
                                 </div>
                                 <div className="space-y-2">
                                     <label className="text-sm font-bold text-gray-700">연락처</label>
-                                    <input type="tel" className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-200 outline-none transition-all placeholder:text-gray-400" placeholder="010-1234-5678" />
+                                    <input name="contact" type="tel" className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-200 outline-none transition-all placeholder:text-gray-400" placeholder="010-1234-5678" required />
                                 </div>
                                 <div className="space-y-2">
                                     <label className="text-sm font-bold text-gray-700">문의 내용</label>
-                                    <textarea className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-200 outline-none transition-all min-h-[120px] placeholder:text-gray-400 resize-none" placeholder="월 출고량, 취급 품목 등 상세 내용을 적어주시면 더 정확한 상담이 가능합니다."></textarea>
+                                    <textarea name="content" className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-200 outline-none transition-all min-h-[120px] placeholder:text-gray-400 resize-none" placeholder="월 출고량, 취급 품목 등 상세 내용을 적어주시면 더 정확한 상담이 가능합니다." required></textarea>
                                 </div>
                                 <div className="flex items-center gap-2 text-sm text-gray-500">
                                     <input type="checkbox" id="agree" className="rounded border-gray-300 text-brand-500 focus:ring-brand-500" />
                                     <label htmlFor="agree">개인정보 수집 및 이용에 동의합니다.</label>
                                 </div>
-                                <button className="w-full bg-brand-600 hover:bg-brand-700 text-white font-bold py-4 rounded-xl transition-all shadow-lg shadow-brand-500/20 text-lg">
+                                <button type="submit" className="w-full bg-brand-600 hover:bg-brand-700 text-white font-bold py-4 rounded-xl transition-all shadow-lg shadow-brand-500/20 text-lg">
                                     상담 신청하기
                                 </button>
                             </form>
@@ -378,7 +410,7 @@
                     <div className="max-w-7xl mx-auto px-6">
                         <div className="grid md:grid-cols-4 gap-12 mb-12">
                             <div className="col-span-1 md:col-span-2">
-                                <span className="text-2xl font-black text-white block mb-6">Smart<span className="text-brand-500">Logis</span></span>
+                                <span className="text-2xl font-black text-white block mb-6">Cover<span className="text-brand-500">Logis</span></span>
                                 <p className="mb-6 max-w-sm">
                                     데이터 기반의 스마트 물류 솔루션으로<br />
                                     고객사의 성장을 함께합니다.
