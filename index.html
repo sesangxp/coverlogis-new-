@@ -239,7 +239,7 @@
         const Services = () => {
             const services = [
                 { title: '풀필먼트', desc: '입고부터 출고까지, 완벽한 재고 관리 시스템', icon: 'package' },
-                { title: '익일/새벽 배송', desc: '고객이 원하는 시간에 도착하는 빠른 배송', icon: 'rocket-launch' },
+                { title: '익일 배송', desc: '고객이 원하는 시간에 도착하는 빠른 배송', icon: 'rocket-launch' },
                 { title: '반품/CS 관리', desc: '까다로운 반품 절차도 스마트하게 자동화', icon: 'arrows-counter-clockwise' },
                 { title: '임가공 서비스', desc: '포장, 조립, 스티커 부착 등 맞춤형 작업', icon: 'hammer' },
             ];
@@ -435,13 +435,8 @@
                                     데이터 기반의 스마트 물류 솔루션으로<br />
                                     고객사의 성장을 함께합니다.
                                 </p>
-                                <div className="flex gap-4">
-                                    {['facebook', 'instagram', 'linkedin', 'youtube'].map((icon, i) => (
-                                        <a key={i} href="#" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-brand-500 hover:text-white transition-all">
-                                            <Icon name={`logo-${icon}`} className="text-xl" />
-                                        </a>
-                                    ))}
-                                </div>
+
+
                             </div>
                             <div>
                                 <h4 className="font-bold text-white mb-6">Company</h4>
